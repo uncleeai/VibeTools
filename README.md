@@ -10,6 +10,19 @@ effect, keyframe, transition and nested structure preserved.
 VibeTools is free and open source (MIT). If it saves you time, you can
 [buy me a coffee on Ko-fi](https://ko-fi.com/uncleluki) ☕ — entirely optional.
 
+<table>
+  <tr>
+    <td width="33%"><img src="docs/panel-categories.png" alt="Category sidebar and asset cards"></td>
+    <td width="33%"><img src="docs/panel-library.png" alt="Asset library grid"></td>
+    <td width="33%"><img src="docs/panel-audio.png" alt="Audio asset preview with pitch and reverse"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Browse by category</sub></td>
+    <td align="center"><sub>Asset library</sub></td>
+    <td align="center"><sub>Audio preview (pitch / reverse)</sub></td>
+  </tr>
+</table>
+
 ---
 
 ## What it does
