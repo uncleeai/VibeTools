@@ -5,10 +5,16 @@ panel. Save timeline selections (or import external media) as reusable assets,
 then drag them back onto the timeline with correct track targeting — every
 effect, keyframe, transition and nested structure preserved.
 
-> Windows only. Built and tested on Premiere Pro 2024+ (`PPRO 24.0`+).
+> Windows only. Targets Premiere Pro 2024+ (`PPRO 24.0`+); developed and tested
+> on Premiere Pro 2026 (v26.2.2).
 
 VibeTools is free and open source (MIT). If it saves you time, you can
 [buy me a coffee on Ko-fi](https://ko-fi.com/uncleluki) ☕ — entirely optional.
+
+> 🎛️ **Fully vibe-coded** — built hand-in-hand with AI. It does real work in
+> real timelines; it just isn't over-engineered. There are no automated tests,
+> so verify any changes yourself. MIT, no gatekeeping — fork it, break it,
+> improve it. Issues and PRs welcome.
 
 <table>
   <tr>
@@ -38,7 +44,7 @@ VibeTools is free and open source (MIT). If it saves you time, you can
 ## Requirements
 
 - Windows
-- Adobe Premiere Pro 2024 or newer (24.0+)
+- Adobe Premiere Pro 2024 or newer (24.0+) — tested on 2026 (v26.2.2)
 - An `ffmpeg.exe` at `vendor/ffmpeg/ffmpeg.exe` (a build is bundled — see
   [FFmpeg](#ffmpeg) below)
 
