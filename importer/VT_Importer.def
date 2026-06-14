@@ -1,0 +1,3 @@
+LIBRARY VT_Importer
+EXPORTS
+    xImportEntry

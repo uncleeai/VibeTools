@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeTools — Slate Cinematic Blue Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0b0f14;
+      --bg-secondary: rgba(10, 14, 20, 0.95);
+      --bg-card: #111927;
+      --bg-hover: #131d29;
+      --text-primary: #ffffff;
+      --text-secondary: #8da2b8;
+      --accent: #3aa0ff;
+      --accent-hover: #1f6fff;
+      --accent-glow: rgba(31, 111, 255, 0.15);
+      --border: rgba(255, 255, 255, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background:
+        radial-gradient(circle at top left, #132133 0%, transparent 40%),
+        var(--bg-primary);
+    }
+
+    /* TOP BAR */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      height: 56px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo svg {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .module-tabs {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .module-tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .module-tab:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .module-tab.active {
+      color: var(--accent);
+      background: rgba(58, 160, 255, 0.1);
+      border: 1px solid rgba(58, 160, 255, 0.15);
+    }
+
+    .tab-icon svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* COLLAPSIBLE SIDEBAR */
+    .sidebar {
+      width: 200px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 8px 10px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s, padding 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    }
+
+    .sidebar.collapsed {
+      width: 64px;
+      padding: 8px 10px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.25s, padding 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+      scrollbar-width: none;
+    }
+
+    .sidebar.collapsed::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 4px 8px 8px 8px;
+    }
+
+    .sidebar.collapsed .sidebar-header {
+      justify-content: center;
+      padding-right: 8px;
+    }
+
+    .sidebar-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .sidebar-toggle:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .toggle-icon {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 11px;
+    }
+
+    .sidebar.collapsed .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Nav items (Category Tiles) */
+    .category-tile {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px 12px;
+      margin-bottom: 2px;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      gap: 10px;
+      overflow: hidden;
+      background: transparent;
+      min-width: 44px;
+      width: 100%;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 3px solid transparent;
+      height: 44px;
+    }
+
+    .sidebar.collapsed .category-tile {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      background: transparent;
+      border-radius: 50%;
+      margin: 0 0 4px 0;
+      gap: 0;
+      border-left: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .category-tile:hover {
+      background: var(--bg-hover);
+    }
+
+    .category-tile.active {
+      background: linear-gradient(135deg, #1f6fff, #1c8cff);
+      color: white;
+      box-shadow: 0 6px 16px rgba(31, 111, 255, 0.2);
+      border-left: 3px solid #1c8cff;
+    }
+
+    .sidebar.collapsed .category-tile.active {
+      background: var(--accent);
+      border: none;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .tile-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.collapsed .tile-icon {
+      transform: scale(1.1);
+    }
+
+    .tile-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--text-secondary);
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s;
+    }
+
+    .category-tile.active .tile-icon svg,
+    .category-tile:hover .tile-icon svg {
+      stroke: white;
+    }
+
+    .tile-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.4s ease, width 0.4s ease;
+      flex: 1;
+    }
+
+    .sidebar.collapsed .tile-label {
+      opacity: 0;
+      width: 0;
+      transition-delay: inherit;
+    }
+
+    .category-tile.active .tile-label {
+      color: var(--text-primary);
+    }
+
+    .tile-count {
+      background: var(--border);
+      color: var(--text-secondary);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      transition: opacity 0.4s ease, width 0.4s ease;
+      flex-shrink: 0;
+    }
+
+    .sidebar.collapsed .tile-count {
+      opacity: 0;
+      width: 0;
+      padding: 0;
+      min-width: 0;
+      transition-delay: inherit;
+    }
+
+    .category-tile.active .tile-count {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .sidebar.collapsed .category-tile.active .tile-count {
+      background: transparent;
+    }
+
+    /* Staggered animation delays - expand: top first */
+    .category-tile:nth-child(2) { transition-delay: 30ms; }
+    .category-tile:nth-child(3) { transition-delay: 60ms; }
+    .category-tile:nth-child(4) { transition-delay: 90ms; }
+    .category-tile:nth-child(5) { transition-delay: 120ms; }
+    .category-tile:nth-child(6) { transition-delay: 150ms; }
+    .category-tile:nth-child(7) { transition-delay: 180ms; }
+    .category-tile:nth-child(8) { transition-delay: 210ms; }
+    .category-tile:nth-child(9) { transition-delay: 240ms; }
+
+    /* Collapsed: reverse order - bottom first, FASTER */
+    .sidebar.collapsed .category-tile:nth-child(2) { transition-delay: 210ms; }
+    .sidebar.collapsed .category-tile:nth-child(3) { transition-delay: 180ms; }
+    .sidebar.collapsed .category-tile:nth-child(4) { transition-delay: 150ms; }
+    .sidebar.collapsed .category-tile:nth-child(5) { transition-delay: 120ms; }
+    .sidebar.collapsed .category-tile:nth-child(6) { transition-delay: 90ms; }
+    .sidebar.collapsed .category-tile:nth-child(7) { transition-delay: 60ms; }
+    .sidebar.collapsed .category-tile:nth-child(8) { transition-delay: 30ms; }
+    .sidebar.collapsed .category-tile:nth-child(9) { transition-delay: 0ms; }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 12px;
+      transition: opacity 0.2s;
+    }
+
+    .sidebar.collapsed .sidebar-divider {
+      margin: 8px 0;
+    }
+
+    /* RIGHT PANEL */
+    .content-right-panel {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* TOOLBAR */
+    .module-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: transparent;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .toolbar-search {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      max-width: 300px;
+      height: 36px;
+      background: #121923;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2px 12px;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .toolbar-search:focus-within {
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    .search-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.5;
+      stroke: var(--text-secondary);
+      display: block;
+    }
+
+    .toolbar-search input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      height: 100%;
+      font-family: inherit;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-save {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 16px;
+      background: linear-gradient(135deg, #1f6fff, #1c8cff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(31, 111, 255, 0.3);
+    }
+
+    .btn-icon-only {
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-icon-only:hover {
+      color: var(--text-primary);
+      border-color: rgba(58, 160, 255, 0.3);
+      transform: rotate(15deg);
+    }
+
+    .btn-icon-only svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: #121923;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-chip:hover {
+      background: #172230;
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .filter-chip.active {
+      background: #1f6fff;
+      color: white;
+      border-color: #1f6fff;
+    }
+
+    /* GRID WITH INCREASED GAPS AND BREATHING ROOM */
+    .asset-grid {
+      flex: 1;
+      min-height: 0;
+      padding: 24px; /* Increased from 12px to give spacing */
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-auto-rows: min-content;
+      gap: 24px; /* Increased from 8px to fix cards being too close */
+      align-content: start;
+    }
+
+    .asset-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .asset-grid::-webkit-scrollbar-thumb {
+      background: #1b2736;
+      border-radius: 99px;
+    }
+
+    /* CARDS */
+    .asset-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; /* Matched preview.html card shape */
+      padding: 0;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+    }
+
+    .asset-card:hover {
+      transform: translateY(-5px) scale(1.02); /* Clean lift animation */
+      box-shadow:
+        0 16px 32px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(58, 160, 255, 0.25);
+    }
+
+    .asset-card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent), 0 8px 24px rgba(58, 160, 255, 0.2);
+    }
+
+    .thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .asset-card:hover .thumbnail-img {
+      opacity: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+      z-index: 2;
+    }
+
+    .card-info {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 3;
+    }
+
+    .asset-name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: white;
+    }
+
+    .asset-meta {
+      display: flex;
+      gap: 6px;
+      color: #94a3b8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .favorite-star {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      z-index: 4;
+      user-select: none;
+    }
+
+    .favorite-star:hover {
+      background: var(--accent-hover);
+      transform: scale(1.1);
+    }
+
+    .favorite-star.active {
+      color: #ffaa00;
+      text-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
+    }
+
+    /* AUDIO PREVIEW BAR (In Slate Blue visual theme) */
+    .audio-preview-bar {
+      background: rgba(10, 14, 20, 0.95);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      padding: 14px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+    }
+
+    .audio-preview-bar.hidden {
+      display: none;
+    }
+
+    .preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .controls-row {
+      gap: 16px;
+    }
+
+    .controls-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .audio-btn {
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .audio-btn:hover {
+      background: #1c2735;
+      border-color: rgba(58, 160, 255, 0.3);
+      color: var(--accent);
+    }
+
+    .audio-btn.play-btn {
+      background: var(--accent);
+      border: none;
+    }
+
+    .audio-btn.play-btn:hover {
+      background: var(--accent-hover);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 8px;
+      color: var(--text-secondary);
+    }
+
+    .volume-slider, .zoom-slider, .pitch-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: #1c2533;
+      border-radius: 99px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .volume-slider {
+      width: 80px;
+    }
+
+    .volume-slider::-webkit-slider-thumb, 
+    .zoom-slider::-webkit-slider-thumb, 
+    .pitch-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      transition: transform 0.1s;
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover, 
+    .zoom-slider::-webkit-slider-thumb:hover, 
+    .pitch-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: white;
+    }
+
+    .audio-time-display {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text-secondary);
+      background: #121923;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .waveform-row {
+      height: 40px;
+      background: #080d14;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .waveform-visual {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 0 10px;
+    }
+
+    .waveform-bar {
+      flex: 1;
+      height: 20%;
+      background: #1f3047;
+      border-radius: 99px;
+      transition: height 0.1s;
+    }
+
+    .waveform-bar.active {
+      background: var(--accent);
+    }
+
+    .audio-playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 30%;
+      width: 2px;
+      background: #ff5555;
+      z-index: 5;
+      box-shadow: 0 0 6px rgba(255, 85, 85, 0.8);
+    }
+
+    .settings-row {
+      font-size: 11px;
+      color: var(--text-secondary);
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      padding-top: 8px;
+    }
+
+    .settings-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .setting-label {
+      font-weight: 600;
+    }
+
+    .pitch-slider {
+      width: 100px;
+    }
+
+    .value-display {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .reset-btn:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .checkbox-label input {
+      accent-color: var(--accent);
+    }
+
+    /* FOOTER / BOTTOM BAR */
+    .bottom-toolbar {
+      height: 48px;
+      border-top: 1px solid var(--border);
+      background: rgba(10, 14, 20, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .toolbar-aspect {
+      display: flex;
+      gap: 4px;
+    }
+
+    .aspect-btn {
+      background: #121923;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .aspect-btn:hover {
+      background: #1c2735;
+      color: white;
+    }
+
+    .aspect-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .toolbar-zoom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .zoom-slider {
+      width: 100px;
+    }
+
+    #zoomValue {
+      font-family: monospace;
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <h1 class="logo">
+      <svg viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#1f6fff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#3aa0ff;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <text x="40" y="90" font-family="'Inter', sans-serif" font-weight="900" font-size="65" fill="url(#gradBlue)" style="letter-spacing: -2px;">VIBE</text>
+        <text x="210" y="90" font-family="'Inter', sans-serif" font-weight="100" font-size="65" fill="white" style="letter-spacing: 2px;">Tools</text>
+        <path d="M45 110 L150 110 L170 100 L190 125 L210 95 L230 110 L390 110" stroke="url(#gradBlue)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </h1>
+    
+    <nav class="module-tabs">
+      <button class="module-tab active" data-module="assets">
+        <span class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path>
+            <path d="M12 12v9"></path>
+          </svg>
+        </span>
+        <span class="tab-label">Assets</span>
+      </button>
+      <button class="module-tab" data-module="captions">
+        <span class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </span>
+        <span class="tab-label">Captions</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="main-content">
+    
+    <!-- CATEGORY SIDEBAR WITH COLLAPSE / EXPAND -->
+    <aside class="sidebar" id="categorySidebar">
+      <div class="sidebar-header">
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+          <span class="toggle-icon">◀</span>
+        </button>
+      </div>
+
+      <div class="category-tile active" data-category="all">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </span>
+        <span class="tile-label">All</span>
+        <span class="tile-count" id="count-all">13</span>
+      </div>
+
+      <div class="category-tile" data-category="recent">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </span>
+        <span class="tile-label">Recent</span>
+        <span class="tile-count" id="count-recent">10</span>
+      </div>
+
+      <div class="category-tile" data-category="favorites">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </span>
+        <span class="tile-label">Favorites</span>
+        <span class="tile-count" id="count-favorites">3</span>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="category-tile" data-category="video">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect>
+            <polygon points="10 9 15 12 10 15 10 9"></polygon>
+          </svg>
+        </span>
+        <span class="tile-label">Video</span>
+        <span class="tile-count" id="count-video">6</span>
+      </div>
+
+      <div class="category-tile" data-category="transition">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <path d="M8 12l8 0"></path>
+            <path d="M13 9l3 3-3 3"></path>
+          </svg>
+        </span>
+        <span class="tile-label">Transition</span>
+        <span class="tile-count" id="count-transition">4</span>
+      </div>
+
+      <div class="category-tile" data-category="effect">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+            <path d="M12 4v2M12 18v2M4 12h2M18 12h2"></path>
+          </svg>
+        </span>
+        <span class="tile-label">Effect</span>
+        <span class="tile-count" id="count-effect">8</span>
+      </div>
+
+      <div class="category-tile" data-category="audio">
+        <span class="tile-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 18V6"></path>
+            <path d="M15 21V3"></path>
+            <path d="M5 15v-6"></path>
+            <path d="M19 15v-6"></path>
+          </svg>
+        </span>
+        <span class="tile-label">Audio</span>
+        <span class="tile-count" id="count-audio">1</span>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <div class="content-right-panel">
+      
+      <!-- TOOLBAR -->
+      <div class="module-toolbar" id="moduleToolbar">
+        <div class="toolbar-search">
+          <span class="search-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="Search assets...">
+        </div>
+        
+        <div class="toolbar-actions">
+          <button id="saveAssetBtn" class="btn-save">
+            Save Selected
+          </button>
+          <button id="settingsBtn" class="btn-icon-only" title="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTER CHIPS -->
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-chip active">All</div>
+        <div class="filter-chip">Swoosh</div>
+        <div class="filter-chip">Shake</div>
+        <div class="filter-chip">Trending</div>
+        <div class="filter-chip">Cinematic</div>
+      </div>
+
+      <!-- GRID AREA (BREATHING ROOM SPACING) -->
+      <div class="asset-grid" id="assetGrid">
+        
+        <!-- Card 1 -->
+        <div class="asset-card selected" onclick="toggleSelect(this)">
+          <img class="thumbnail-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop" />
+          <div class="overlay"></div>
+          <div class="favorite-star active" onclick="toggleFav(event, this)">★</div>
+          <div class="card-info">
+            <div class="asset-name">Campfire Intro</div>
+            <div class="asset-meta">
+              <span>Video</span>
+              <span>•</span>
+              <span>Swoosh</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="asset-card" onclick="toggleSelect(this)">
+          <img class="thumbnail-img" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop" />
+          <div class="overlay"></div>
+          <div class="favorite-star" onclick="toggleFav(event, this)">★</div>
+          <div class="card-info">
+            <div class="asset-name">Neon Transition</div>
+            <div class="asset-meta">
+              <span>Transition</span>
+              <span>•</span>
+              <span>Trending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="asset-card" onclick="toggleSelect(this); showAudioPreview();">
+          <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#121a24; position:absolute;">
+            <svg viewBox="0 0 24 24" style="width:40px; height:40px; stroke:#1f6fff; fill:none; stroke-width:1.5;"><path d="M9 18V6M15 21V3M5 15v-6M19 15v-6"></path></svg>
+          </div>
+          <div class="overlay"></div>
+          <div class="favorite-star active" onclick="toggleFav(event, this)">★</div>
+          <div class="card-info">
+            <div class="asset-name">Bass Drop FX</div>
+            <div class="asset-meta">
+              <span>Audio</span>
+              <span>•</span>
+              <span>FX</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="asset-card" onclick="toggleSelect(this)">
+          <img class="thumbnail-img" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop" />
+          <div class="overlay"></div>
+          <div class="favorite-star" onclick="toggleFav(event, this)">★</div>
+          <div class="card-info">
+            <div class="asset-name">Red Overlay</div>
+            <div class="asset-meta">
+              <span>Overlay</span>
+              <span>•</span>
+              <span>Cinematic</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AUDIO PREVIEW BAR (In Slate Blue visual theme) -->
+      <div class="audio-preview-bar" id="audioPreview">
+        <div class="preview-row controls-row">
+          <div class="controls-left">
+            <button class="audio-btn play-btn" onclick="togglePlay(this)" title="Play/Pause">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" id="playIcon">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+            <button class="audio-btn" title="Replay">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+              </svg>
+            </button>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+            </div>
+          </div>
+          <div class="audio-time-display">
+            <span>00:01.24</span> / <span>00:04.50</span>
+          </div>
+        </div>
+
+        <div class="preview-row waveform-row">
+          <div class="audio-playhead" id="playhead"></div>
+          <div class="waveform-visual" id="waveformVisual">
+            <!-- Waveform bars generated by script -->
+          </div>
+        </div>
+
+        <div class="preview-row settings-row">
+          <div class="settings-left">
+            <span class="setting-label">Pitch:</span>
+            <input type="range" class="pitch-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('pitchVal').innerText = parseFloat(this.value).toFixed(1)">
+            <span id="pitchVal" class="value-display">1.0</span>
+            <button class="reset-btn">Reset</button>
+
+            <label class="checkbox-label">
+              <input type="checkbox">
+              <span>Reverse</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER / BOTTOM BAR -->
+      <footer class="bottom-toolbar">
+        <div class="toolbar-aspect">
+          <button class="aspect-btn active" onclick="switchAspect(this, '16:9')">16:9</button>
+          <button class="aspect-btn" onclick="switchAspect(this, '9:16')">9:16</button>
+        </div>
+        <div class="toolbar-zoom">
+          <span id="zoomValue">100%</span>
+          <input type="range" class="zoom-slider" min="40" max="150" value="100" oninput="document.getElementById('zoomValue').innerText = this.value + '%'">
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // Sidebar toggling
+  const sidebar = document.getElementById('categorySidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const toggleIcon = sidebarToggle.querySelector('.toggle-icon');
+
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    if (sidebar.classList.contains('collapsed')) {
+      toggleIcon.textContent = '▶';
+    } else {
+      toggleIcon.textContent = '◀';
+    }
+  });
+
+  // Navigation switching
+  const tiles = document.querySelectorAll('.category-tile');
+  tiles.forEach(tile => {
+    tile.addEventListener('click', () => {
+      tiles.forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+    });
+  });
+
+  // Filter chips switching
+  const chips = document.querySelectorAll('.filter-chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // Toggle selection on cards
+  function toggleSelect(card) {
+    document.querySelectorAll('.asset-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+
+  // Toggle favorite star
+  function toggleFav(event, element) {
+    event.stopPropagation();
+    element.classList.toggle('active');
+    
+    // Update badge count
+    const activeFavs = document.querySelectorAll('.favorite-star.active').length;
+    document.getElementById('count-favorites').textContent = activeFavs;
+  }
+
+  // Aspect ratio switcher
+  function switchAspect(btn, ratio) {
+    document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const cards = document.querySelectorAll('.asset-card');
+    cards.forEach(c => {
+      if (ratio === '9:16') {
+        c.style.aspectRatio = '9/16';
+      } else {
+        c.style.aspectRatio = '16/9';
+      }
+    });
+  }
+
+  // Generate waveform bars dynamically
+  const waveform = document.getElementById('waveformVisual');
+  const barCount = 65;
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement('div');
+    bar.classList.add('waveform-bar');
+    const height = Math.floor(Math.random() * 70) + 15;
+    bar.style.height = height + '%';
+    if (i < 20) {
+      bar.classList.add('active');
+    }
+    waveform.appendChild(bar);
+  }
+
+  // Audio Play/Pause simulation
+  let isPlaying = false;
+  let playheadInterval;
+  function togglePlay(btn) {
+    isPlaying = !isPlaying;
+    const playIcon = document.getElementById('playIcon');
+    const playhead = document.getElementById('playhead');
+    const bars = document.querySelectorAll('.waveform-bar');
+    
+    if (isPlaying) {
+      btn.style.background = '#ff5555';
+      playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // Pause icon
+      
+      let position = 30; // Start at 30%
+      playheadInterval = setInterval(() => {
+        position += 0.5;
+        if (position > 100) position = 0;
+        playhead.style.left = position + '%';
+        
+        const currentBarIndex = Math.floor((position / 100) * barCount);
+        bars.forEach((bar, idx) => {
+          if (idx <= currentBarIndex) {
+            bar.classList.add('active');
+          } else {
+            bar.classList.remove('active');
+          }
+        });
+      }, 50);
+    } else {
+      btn.style.background = 'var(--accent)';
+      playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; // Play icon
+      clearInterval(playheadInterval);
+    }
+  }
+
+  function showAudioPreview() {
+    const preview = document.getElementById('audioPreview');
+    preview.classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>

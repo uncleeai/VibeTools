@@ -1,0 +1,61 @@
+# Build artifacts
+*.obj
+*.lib
+*.exp
+*.dll.bak
+*.i64
+*.i64.bak
+*_bak.*
+
+# C++ build directories
+cpp/build/
+cpp/VT_ExternalObject.dir/
+cpp/Release/
+cpp/Debug/
+cpp/*.vcxproj
+cpp/*.vcxproj.filters
+cpp/*.sln
+cpp/cmake_install.cmake
+
+# Importer build directories (if any)
+importer/build/
+
+# Native plugin build output (regenerated from source in Visual Studio)
+native/**/build/
+native/**/x64/
+*.pdb
+*.iobj
+*.ipdb
+*.tlog
+*.recipe
+*.res
+
+# IDE / Analysis
+ida/
+*.i64
+
+# Test files
+support_files/test.*
+*.vtbk
+*.vtbricks
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if used)
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Editor / AI scratch leftovers
+*.bak
+*.broken
+*.staged
+temp*.js
+
+# Adobe Premiere Pro C++ SDK — proprietary, download from Adobe to build natives
+Premiere_Pro_24.0_C++_Win_SDK/
+Premiere_Pro_*_SDK/

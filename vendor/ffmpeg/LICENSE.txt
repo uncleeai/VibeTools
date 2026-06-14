@@ -1,0 +1,45 @@
+FFmpeg — bundled binary (vendor/ffmpeg/ffmpeg.exe)
+===================================================
+
+VibeTools bundles a prebuilt FFmpeg binary, which it invokes as a SEPARATE
+PROCESS (it is never linked into VibeTools' own code). VibeTools itself is
+licensed under the MIT License (see ../../LICENSE). FFmpeg is a separate work
+distributed here under its own license, summarized below.
+
+Bundled build
+-------------
+  Version:   ffmpeg 6.1.1 ("essentials" build)
+  Source of build: gyan.dev  — https://www.gyan.dev/ffmpeg/builds/
+  Build config: --enable-gpl --enable-version3 (and others; run `ffmpeg -version`
+                for the full configuration string)
+
+License
+-------
+Because this build was configured with --enable-gpl --enable-version3, the
+binary is licensed under the GNU General Public License, version 3 (GPLv3).
+
+  FFmpeg is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 3 of the License, or (at your option) any later
+  version.
+
+Full license text: https://www.gnu.org/licenses/gpl-3.0.txt
+
+Corresponding source code
+--------------------------
+The complete corresponding source code for FFmpeg is available from:
+
+  - FFmpeg project source:  https://ffmpeg.org/download.html  (and
+    https://git.ffmpeg.org/ffmpeg.git — check out tag n6.1.1)
+  - Build recipe / source for this specific build (gyan.dev):
+    https://www.gyan.dev/ffmpeg/builds/
+
+Note for redistributors / forks
+--------------------------------
+If you prefer to avoid GPL obligations, you may replace this binary with an
+LGPL build of FFmpeg, or obtain it at install time via the `ffmpeg-static` npm
+package. VibeTools only requires that an `ffmpeg.exe` is present at
+vendor/ffmpeg/ffmpeg.exe; the specific build is your choice.
+
+FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
+VibeTools is not affiliated with or endorsed by the FFmpeg project.

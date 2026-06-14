@@ -1,0 +1,6 @@
+{
+  "name": "vibetools-panel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adobe Premiere Pro CEP panel. No npm runtime dependencies; ffmpeg is vendored at vendor/ffmpeg/ffmpeg.exe."
+}

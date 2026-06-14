@@ -1,0 +1,16 @@
+/*******************************************************************/
+/*                                                                 */
+/*                      VT_Importer Resource File                  */
+/*                                                                 */
+/*******************************************************************/
+
+// Our FCC (Four Character Code) filetype - must match VT_IMPORTER_MAGIC
+#define VTBK 0x5654424BL		// Hex for 'VTBK'
+
+// IMPT resource required for Premiere Pro to recognize the importer
+// The resource type "IMPT" and ID 1000 are standard for Premiere importers
+1000 IMPT DISCARDABLE
+BEGIN
+	0x0000
+	VTBK
+END

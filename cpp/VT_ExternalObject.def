@@ -1,0 +1,7 @@
+LIBRARY VT_ExternalObject
+EXPORTS
+    ESGetVersion       @1
+    ESInitialize       @2
+    ESTerminate        @3
+    ESFreeMem          @4
+    doCommand          @5

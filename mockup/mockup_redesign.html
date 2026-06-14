@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeTools — Midnight Aurora Redesign Mockup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           VIBETOOLS — "MIDNIGHT AURORA" REDESIGN
+           ============================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* === NEW COLOR PALETTE === */
+            --bg-primary: #0a0a12;
+            --bg-secondary: #0d0d18;
+            --bg-card: #12121e;
+            --bg-elevated: #16162a;
+            --bg-hover: #1a1a2e;
+
+            --text-primary: #e8e8f0;
+            --text-secondary: #6b7280;
+            --text-muted: #4a4a5a;
+
+            /* Accent: Violet-Purple gradient */
+            --accent: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-hover: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --accent-glow-soft: rgba(99, 102, 241, 0.12);
+
+            --border: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(99, 102, 241, 0.3);
+
+            --success: #34d399;
+            --error: #f87171;
+            --warning: #fbbf24;
+
+            --card-aspect: 16/9;
+            --card-min-size: 160px;
+
+            /* Glass effect */
+            --glass-bg: rgba(18, 18, 30, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 12px;
+            line-height: 1.4;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ====== CONTAINER ====== */
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* ====== ANIMATED GLOW LINE ====== */
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--accent) 20%, 
+                var(--accent-secondary) 40%, 
+                var(--accent-cyan) 60%, 
+                var(--accent-secondary) 80%, 
+                transparent 100%);
+            background-size: 200% 100%;
+            animation: glowSweep 6s ease-in-out infinite;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        @keyframes glowSweep {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+        }
+
+        /* ====== TOP BAR ====== */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo svg {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        /* Module Tabs */
+        .module-tabs {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .module-tab {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .module-tab:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .module-tab.active {
+            color: var(--accent-hover);
+            background: var(--accent-glow-soft);
+            border-color: var(--border-accent);
+        }
+
+        .tab-icon svg {
+            width: 14px;
+            height: 14px;
+            display: block;
+        }
+
+        /* ====== MAIN CONTENT ====== */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        /* ====== SIDEBAR ====== */
+        .sidebar {
+            width: 200px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 8px 10px;
+            flex-shrink: 0;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s, 
+                        padding 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--accent), var(--accent-secondary)); 
+            border-radius: 3px; 
+        }
+
+        .sidebar.collapsed {
+            width: 64px;
+            padding: 8px 10px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.25s, 
+                        padding 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+            scrollbar-width: none;
+        }
+        .sidebar.collapsed::-webkit-scrollbar { display: none; }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 4px 8px 8px 8px;
+            transition: justify-content 0.3s ease;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            padding-right: 0;
+        }
+
+        .sidebar-toggle {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border-color: var(--border);
+        }
+
+        .toggle-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Category Tiles */
+        .category-tile {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 2px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            gap: 10px;
+            overflow: hidden;
+            background: transparent;
+            min-width: 44px;
+            width: 100%;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        /* Spotlight glass border effect */
+        .category-tile::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle 80px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .category-tile:hover::after { opacity: 1; }
+
+        .category-tile:hover {
+            background: var(--bg-hover);
+        }
+
+        .category-tile.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.08));
+            border-color: rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.08), inset 0 0 20px rgba(99, 102, 241, 0.05);
+        }
+
+        /* Collapsed sidebar tiles */
+        .sidebar.collapsed .category-tile {
+            width: 44px;
+            height: 44px;
+            padding: 10px;
+            background: transparent;
+            border-radius: 50%;
+            margin: 0 0 4px 0;
+            gap: 0;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar.collapsed .category-tile:hover { background: var(--bg-hover); }
+
+        .sidebar.collapsed .category-tile.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            box-shadow: 0 0 16px var(--accent-glow), 0 0 4px rgba(139, 92, 246, 0.4);
+        }
+
+        .tile-icon {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .tile-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: var(--text-secondary);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.2s;
+        }
+
+        .category-tile.active .tile-icon svg,
+        .category-tile:hover .tile-icon svg { stroke: var(--text-primary); }
+        .tile-icon .accent { stroke: var(--accent); }
+        .category-tile.active .tile-icon .accent { stroke: white; }
+        .sidebar.collapsed .tile-icon { transform: scale(1.1); }
+
+        .tile-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.4s ease, width 0.4s ease;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .tile-label { opacity: 0; width: 0; }
+        .category-tile.active .tile-label { color: var(--text-primary); }
+
+        .tile-count {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+            transition: opacity 0.4s ease, width 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed .tile-count { opacity: 0; width: 0; padding: 0; min-width: 0; }
+        .category-tile.active .tile-count {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+        }
+
+        /* Staggered delays — EXPAND */
+        .category-tile:nth-child(2) { transition-delay: 30ms; }
+        .category-tile:nth-child(3) { transition-delay: 60ms; }
+        .category-tile:nth-child(4) { transition-delay: 90ms; }
+        .category-tile:nth-child(5) { transition-delay: 120ms; }
+        .category-tile:nth-child(6) { transition-delay: 150ms; }
+        .category-tile:nth-child(7) { transition-delay: 180ms; }
+        .category-tile:nth-child(8) { transition-delay: 210ms; }
+        .category-tile:nth-child(9) { transition-delay: 240ms; }
+        .category-tile:nth-child(10) { transition-delay: 270ms; }
+        .category-tile:nth-child(11) { transition-delay: 300ms; }
+        .category-tile:nth-child(12) { transition-delay: 330ms; }
+        .category-tile:nth-child(13) { transition-delay: 360ms; }
+
+        /* Collapsed: reverse order */
+        .sidebar.collapsed .category-tile:nth-child(2)  { transition-delay: 180ms; }
+        .sidebar.collapsed .category-tile:nth-child(3)  { transition-delay: 165ms; }
+        .sidebar.collapsed .category-tile:nth-child(4)  { transition-delay: 150ms; }
+        .sidebar.collapsed .category-tile:nth-child(5)  { transition-delay: 135ms; }
+        .sidebar.collapsed .category-tile:nth-child(6)  { transition-delay: 120ms; }
+        .sidebar.collapsed .category-tile:nth-child(7)  { transition-delay: 105ms; }
+        .sidebar.collapsed .category-tile:nth-child(8)  { transition-delay: 90ms; }
+        .sidebar.collapsed .category-tile:nth-child(9)  { transition-delay: 75ms; }
+        .sidebar.collapsed .category-tile:nth-child(10) { transition-delay: 60ms; }
+        .sidebar.collapsed .category-tile:nth-child(11) { transition-delay: 45ms; }
+        .sidebar.collapsed .category-tile:nth-child(12) { transition-delay: 30ms; }
+        .sidebar.collapsed .category-tile:nth-child(13) { transition-delay: 0ms; }
+
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            margin: 8px 12px;
+        }
+
+        /* ====== RIGHT PANEL ====== */
+        .content-right-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-primary);
+            min-height: 0;
+        }
+
+        /* ====== MODULE TOOLBAR ====== */
+        .module-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: transparent;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .module-toolbar > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .toolbar-search {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            max-width: 300px;
+            height: 34px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2px 12px;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .toolbar-search:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow-soft), 0 0 20px rgba(99,102,241,0.1);
+            background: var(--bg-hover);
+        }
+
+        .search-icon {
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .toolbar-search:focus-within .search-icon { color: var(--accent); }
+
+        .search-icon svg { width: 14px; height: 14px; stroke-width: 2.5; }
+
+        .toolbar-search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 12px;
+            font-family: inherit;
+            padding: 6px 0;
+            outline: none;
+            height: 100%;
+        }
+
+        .toolbar-search input::placeholder { color: var(--text-muted); }
+
+        .toolbar-actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        /* Save Button */
+        .btn-dropdown {
+            position: relative;
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            padding: 0 16px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 10px 0 0 10px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.25s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-save:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .btn-save:active {
+            transform: translateY(0) scale(0.97);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-icon svg { width: 14px; height: 14px; display: block; }
+
+        .btn-dropdown-toggle {
+            height: 32px;
+            padding: 0 10px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent));
+            color: white;
+            border: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-dropdown-toggle:hover { filter: brightness(1.15); }
+        .btn-dropdown-toggle svg { display: block; }
+
+        /* Settings button */
+        .btn-icon-only {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon-only:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border-color: var(--border);
+            transform: rotate(20deg);
+        }
+
+        .btn-icon-only svg { width: 18px; height: 18px; }
+
+        /* ====== FILTER BAR ====== */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(10, 10, 18, 0.6);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .filter-chip.active {
+            background: var(--accent-glow-soft);
+            color: var(--accent-hover);
+            border-color: var(--border-accent);
+            font-weight: 600;
+        }
+
+        .chip-count {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        .filter-chip.active .chip-count {
+            background: rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+
+        /* ====== ASSET GRID ====== */
+        .asset-grid {
+            flex: 1;
+            min-height: 0;
+            padding: 14px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-min-size, 160px), 1fr));
+            grid-auto-rows: min-content;
+            gap: 10px;
+            align-content: start;
+        }
+
+        .asset-grid::-webkit-scrollbar { width: 5px; }
+        .asset-grid::-webkit-scrollbar-track { background: transparent; }
+        .asset-grid::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--accent), var(--accent-secondary)); 
+            border-radius: 3px; 
+            opacity: 0.5;
+        }
+
+        /* ====== ASSET CARD ====== */
+        .asset-card {
+            background: var(--bg-card);
+            border: 1px solid transparent;
+            background-image: 
+                linear-gradient(var(--bg-card), var(--bg-card)), 
+                linear-gradient(145deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.08) 40%, rgba(255,255,255,0.03));
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            border-radius: 14px;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.5),
+                0 1px 3px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            cursor: grab;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            aspect-ratio: var(--card-aspect, 16/9);
+            animation: cardFadeIn 0.4s ease-out backwards;
+        }
+
+        .asset-card:nth-child(1) { animation-delay: 0ms; }
+        .asset-card:nth-child(2) { animation-delay: 40ms; }
+        .asset-card:nth-child(3) { animation-delay: 80ms; }
+        .asset-card:nth-child(4) { animation-delay: 120ms; }
+        .asset-card:nth-child(5) { animation-delay: 160ms; }
+        .asset-card:nth-child(6) { animation-delay: 200ms; }
+        .asset-card:nth-child(7) { animation-delay: 240ms; }
+        .asset-card:nth-child(8) { animation-delay: 280ms; }
+        .asset-card:nth-child(9) { animation-delay: 320ms; }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Inner glow */
+        .asset-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            box-shadow: inset 0 0 30px rgba(99, 102, 241, 0.04);
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.6), 
+                0 0 25px rgba(99, 102, 241, 0.12);
+        }
+
+        .asset-card:hover::after {
+            box-shadow: inset 0 0 40px rgba(99, 102, 241, 0.12);
+            opacity: 1;
+        }
+
+        .asset-card:active { cursor: grabbing; transform: translateY(-1px) scale(0.98); }
+
+        .asset-card.selected {
+            box-shadow: 0 0 0 2px var(--accent), 0 0 30px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Thumbnail area */
+        .asset-thumbnail {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
+        }
+
+        .asset-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .asset-card:hover .asset-thumbnail img {
+            transform: scale(1.06);
+        }
+
+        .asset-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .asset-icon svg {
+            width: 30%;
+            height: auto;
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .asset-card:hover .asset-icon svg {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 14px rgba(99, 102, 241, 0.5));
+        }
+
+        /* Watermark */
+        .watermark-bg {
+            position: absolute;
+            bottom: -25%;
+            right: -15%;
+            width: 90%;
+            height: 90%;
+            transform: rotate(-15deg);
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+            color: var(--accent);
+        }
+
+        .watermark-bg svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1;
+        }
+
+        /* Info Overlay */
+        .asset-info {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 3px;
+            padding: 14px 14px;
+            background: linear-gradient(to top, 
+                rgba(6, 6, 16, 0.95) 0%, 
+                rgba(6, 6, 16, 0.5) 50%, 
+                transparent 100%);
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100%;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .asset-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.2px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .asset-meta {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        /* Favorite Star */
+        .asset-favorite {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 26px;
+            height: 26px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.25s, transform 0.25s;
+            font-size: 13px;
+            z-index: 10;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .asset-card:hover .asset-favorite { opacity: 1; }
+        .asset-favorite:hover { transform: scale(1.15); }
+        .asset-favorite.active { opacity: 1; color: var(--accent-cyan); }
+
+        /* ====== BOTTOM TOOLBAR ====== */
+        .bottom-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 20px;
+            background: rgba(13, 13, 24, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .toolbar-aspect {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 3px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .aspect-btn {
+            padding: 5px 14px;
+            font-size: 11px;
+            font-weight: 500;
+            font-family: inherit;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .aspect-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .aspect-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            font-weight: 600;
+        }
+
+        .toolbar-zoom {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .toolbar-zoom span {
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-secondary);
+            min-width: 32px;
+            text-align: right;
+        }
+
+        .zoom-slider {
+            width: 100px;
+            height: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: 2px solid var(--bg-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .zoom-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.6);
+        }
+
+        /* ====== GLOBAL ANIMATIONS ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ====== GLOBAL FOCUS ====== */
+        button:focus-visible, input:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+        }
+
+        /* ====== SCROLLBAR GLOBAL ====== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: rgba(99, 102, 241, 0.3); 
+            border-radius: 3px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
+
+        /* ====== MOCKUP BADGE ====== */
+        .mockup-badge {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(99, 102, 241, 0.6); }
+        }
+
+        /* Placeholder images - colored abstract thumbnails */
+        .thumb-placeholder {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        .thumb-1 { background: linear-gradient(135deg, #1a1a3e, #2d1b69, #1a1a3e); }
+        .thumb-2 { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+        .thumb-3 { background: linear-gradient(135deg, #1a0a2e, #3d1a5e, #1a0a2e); }
+        .thumb-4 { background: linear-gradient(135deg, #0c1220, #1a2940, #0c1220); }
+        .thumb-5 { background: linear-gradient(135deg, #1c1c2e, #2e1c3e, #1c2e3e); }
+        .thumb-6 { background: linear-gradient(135deg, #0a1628, #162844, #0a1628); }
+        .thumb-7 { background: linear-gradient(135deg, #1e0a2e, #0a1e2e, #1e0a2e); }
+        .thumb-8 { background: linear-gradient(135deg, #141428, #28143a, #141428); }
+        .thumb-9 { background: linear-gradient(135deg, #0a0a1e, #1e1e3e, #0a0a1e); }
+    </style>
+</head>
+<body>
+    <div class="mockup-badge">✦ Mockup — klikaj, hover'uj!</div>
+
+    <div class="container">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <h1 class="logo">
+                <svg viewBox="40 0 460 150" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <text x="40" y="90" font-family="'Inter', sans-serif" font-weight="900" font-size="65"
+                        fill="url(#gradViolet)" style="letter-spacing: -2px;">VIBE</text>
+                    <text x="215" y="90" font-family="'Inter', sans-serif" font-weight="300" font-size="65"
+                        fill="white" style="letter-spacing: 2px; opacity: 0.9;">Tools</text>
+                    <path d="M45 110 L150 110 L170 100 L190 125 L210 95 L230 110 L390 110" 
+                        stroke="url(#gradViolet)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" />
+                </svg>
+            </h1>
+            <nav class="module-tabs">
+                <button class="module-tab active" data-module="assets">
+                    <span class="tab-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path>
+                            <path d="M12 12v9"></path>
+                        </svg>
+                    </span>
+                    <span>Assets</span>
+                </button>
+                <button class="module-tab" data-module="captions">
+                    <span class="tab-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </span>
+                    <span>Captions</span>
+                </button>
+            </nav>
+        </header>
+        <div class="glow-line"></div>
+
+        <!-- Main -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="categorySidebar">
+                <div class="sidebar-header">
+                    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+                        <span class="toggle-icon">◀</span>
+                    </button>
+                </div>
+                <div class="category-tile active" data-category="all">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </span>
+                    <span class="tile-label">All</span>
+                    <span class="tile-count">24</span>
+                </div>
+                <div class="category-tile" data-category="recent">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline class="accent" points="12 6 12 12 16 14"></polyline></svg>
+                    </span>
+                    <span class="tile-label">Recent</span>
+                    <span class="tile-count">8</span>
+                </div>
+                <div class="category-tile" data-category="favorites">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Favorites</span>
+                    <span class="tile-count">3</span>
+                </div>
+
+                <div class="sidebar-divider"></div>
+
+                <div class="category-tile" data-category="video">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect><polygon class="accent" points="10 9 15 12 10 15 10 9" fill="transparent" stroke-width="1.5"></polygon></svg>
+                    </span>
+                    <span class="tile-label">Video</span>
+                    <span class="tile-count">6</span>
+                </div>
+                <div class="category-tile" data-category="transition">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path class="accent" d="M8 12l8 0"></path><path class="accent" d="M13 9l3 3-3 3"></path></svg>
+                    </span>
+                    <span class="tile-label">Transition</span>
+                    <span class="tile-count">4</span>
+                </div>
+                <div class="category-tile" data-category="effect">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path class="accent" d="M12 4v2M12 18v2M4 12h2M18 12h2M6.34 6.34l1.42 1.42M16.24 16.24l1.42 1.42M6.34 17.66l1.42-1.42M16.24 7.76l1.42-1.42"></path></svg>
+                    </span>
+                    <span class="tile-label">Effect</span>
+                    <span class="tile-count">5</span>
+                </div>
+                <div class="category-tile" data-category="text">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><line class="accent" x1="12" y1="4" x2="12" y2="20"></line></svg>
+                    </span>
+                    <span class="tile-label">Text</span>
+                    <span class="tile-count">2</span>
+                </div>
+                <div class="category-tile" data-category="audio">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><path d="M9 18V6"></path><path class="accent" d="M15 21V3"></path><path d="M5 15v-6"></path><path d="M19 15v-6"></path></svg>
+                    </span>
+                    <span class="tile-label">Audio</span>
+                    <span class="tile-count">3</span>
+                </div>
+                <div class="category-tile" data-category="overlay">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline class="accent" points="2 12 12 17 22 12"></polyline></svg>
+                    </span>
+                    <span class="tile-label">Overlay</span>
+                    <span class="tile-count">1</span>
+                </div>
+                <div class="category-tile" data-category="background">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle class="accent" cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    </span>
+                    <span class="tile-label">Background</span>
+                    <span class="tile-count">0</span>
+                </div>
+                <div class="category-tile" data-category="mogrt">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle class="accent" cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                    <span class="tile-label">MOGRT</span>
+                    <span class="tile-count">0</span>
+                </div>
+            </aside>
+
+            <!-- Right Panel -->
+            <div class="content-right-panel">
+                <!-- Toolbar -->
+                <div class="module-toolbar">
+                    <div>
+                        <div class="toolbar-search">
+                            <span class="search-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </span>
+                            <input type="text" placeholder="Search assets...">
+                        </div>
+                        <div class="toolbar-actions">
+                            <div class="btn-dropdown">
+                                <button class="btn-save">
+                                    <span class="btn-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </span> Save
+                                </button>
+                                <button class="btn-dropdown-toggle">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <button class="btn-icon-only" title="Settings">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter chips -->
+                <div class="filter-bar">
+                    <div class="filter-chip active">Swoosh <span class="chip-count">8</span></div>
+                    <div class="filter-chip">Impact <span class="chip-count">5</span></div>
+                    <div class="filter-chip">Whoosh <span class="chip-count">4</span></div>
+                    <div class="filter-chip">Glitch <span class="chip-count">3</span></div>
+                    <div class="filter-chip">Cinematic <span class="chip-count">2</span></div>
+                    <div class="filter-chip">Ambient <span class="chip-count">2</span></div>
+                </div>
+
+                <!-- Asset Grid -->
+                <div class="asset-grid">
+                    <!-- Card 1 - Video with thumbnail -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail">
+                            <div class="thumb-placeholder thumb-1"></div>
+                        </div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect><polygon points="10 9 15 12 10 15 10 9"></polygon></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect><polygon points="10 9 15 12 10 15 10 9"></polygon></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Smooth Zoom In</div>
+                            <div class="asset-meta">Video</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-2"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M8 12l8 0"></path><path d="M13 9l3 3-3 3"></path></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M8 12l8 0"></path><path d="M13 9l3 3-3 3"></path></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Whip Pan Right</div>
+                            <div class="asset-meta">Transition</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-3"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v2M12 18v2M4 12h2M18 12h2"></path></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.34 6.34l1.42 1.42M16.24 16.24l1.42 1.42M6.34 17.66l1.42-1.42M16.24 7.76l1.42-1.42"></path></svg>
+                        </div>
+                        <button class="asset-favorite active">★</button>
+                        <div class="asset-info">
+                            <div class="asset-name">VHS Glitch</div>
+                            <div class="asset-meta">Effect</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-4"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Lower Third</div>
+                            <div class="asset-meta">Text</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-5"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><path d="M9 18V6"></path><path d="M15 21V3"></path><path d="M5 15v-6"></path><path d="M19 15v-6"></path></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 18V6"></path><path d="M15 21V3"></path><path d="M5 15v-6"></path><path d="M19 15v-6"></path></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Swoosh Deep</div>
+                            <div class="asset-meta">Audio</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="asset-card selected">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-6"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <button class="asset-favorite active">★</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Light Leak Warm</div>
+                            <div class="asset-meta">Overlay</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-7"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect><polygon points="10 9 15 12 10 15 10 9"></polygon></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect><polygon points="10 9 15 12 10 15 10 9"></polygon></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Cinematic Bars</div>
+                            <div class="asset-meta">Video</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 8 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-8"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M8 12l8 0"></path><path d="M13 9l3 3-3 3"></path></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M8 12l8 0"></path><path d="M13 9l3 3-3 3"></path></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Cross Dissolve</div>
+                            <div class="asset-meta">Transition</div>
+                        </div>
+                    </div>
+
+                    <!-- Card 9 -->
+                    <div class="asset-card">
+                        <div class="asset-thumbnail"><div class="thumb-placeholder thumb-9"></div></div>
+                        <div class="watermark-bg">
+                            <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v2M12 18v2M4 12h2M18 12h2"></path></svg>
+                        </div>
+                        <div class="asset-icon">
+                            <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.34 6.34l1.42 1.42M16.24 16.24l1.42 1.42M6.34 17.66l1.42-1.42M16.24 7.76l1.42-1.42"></path></svg>
+                        </div>
+                        <button class="asset-favorite">☆</button>
+                        <div class="asset-info">
+                            <div class="asset-name">Film Grain Heavy</div>
+                            <div class="asset-meta">Effect</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Toolbar -->
+                <div class="bottom-toolbar">
+                    <div class="toolbar-aspect">
+                        <button class="aspect-btn active">16:9</button>
+                        <button class="aspect-btn">9:16</button>
+                    </div>
+                    <div class="toolbar-zoom">
+                        <span>100%</span>
+                        <input type="range" class="zoom-slider" min="40" max="150" value="100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle
+        const sidebar = document.getElementById('categorySidebar');
+        const toggle = document.getElementById('sidebarToggle');
+        toggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Category tile click
+        document.querySelectorAll('.category-tile').forEach(tile => {
+            tile.addEventListener('click', () => {
+                document.querySelectorAll('.category-tile').forEach(t => t.classList.remove('active'));
+                tile.classList.add('active');
+            });
+        });
+
+        // Spotlight effect on category tiles
+        document.querySelectorAll('.category-tile').forEach(tile => {
+            tile.addEventListener('mousemove', (e) => {
+                const rect = tile.getBoundingClientRect();
+                tile.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                tile.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        // Module tabs
+        document.querySelectorAll('.module-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Aspect buttons
+        document.querySelectorAll('.aspect-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Filter chips
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.classList.toggle('active');
+            });
+        });
+
+        // Card selection
+        document.querySelectorAll('.asset-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.asset-favorite')) return;
+                document.querySelectorAll('.asset-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
+
+        // Favorite toggle
+        document.querySelectorAll('.asset-favorite').forEach(fav => {
+            fav.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fav.classList.toggle('active');
+                fav.textContent = fav.classList.contains('active') ? '★' : '☆';
+            });
+        });
+    </script>
+</body>
+</html>

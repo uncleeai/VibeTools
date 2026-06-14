@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeTools</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Top Bar - Logo and Module Navigation -->
+        <header class="top-bar" style="display: none;">
+            <h1 class="logo">
+                <svg viewBox="40 0 460 150" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#007bff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d2ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Background rect optional - removed to blend with header -->
+                    <!-- <rect width="500" height="150" fill="#1a1a1a" rx="15"/> -->
+
+                    <text x="40" y="90" font-family="'Segoe UI', sans-serif" font-weight="900" font-size="65"
+                        fill="url(#gradBlue)" style="letter-spacing: -2px;">VIBE</text>
+
+                    <text x="210" y="90" font-family="'Segoe UI', sans-serif" font-weight="100" font-size="65"
+                        fill="white" style="letter-spacing: 2px;">Tools</text>
+
+                    <path d="M45 110 L150 110 L170 100 L190 125 L210 95 L230 110 L390 110" stroke="url(#gradBlue)"
+                        stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                </svg>
+            </h1>
+            <nav class="module-tabs" style="display: none;">
+                <button class="module-tab active" data-module="assets">
+                    <span class="tab-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path>
+                            <path d="M12 12v9"></path>
+                        </svg>
+                    </span>
+                    <span class="tab-label">Assets</span>
+                </button>
+                <button class="module-tab" data-module="captions">
+                    <span class="tab-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </span>
+                    <span class="tab-label">Captions</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Category Sidebar -->
+            <aside class="sidebar" id="categorySidebar">
+                <div class="sidebar-header">
+                    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+                        <span class="toggle-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <div class="category-tile active" data-category="all">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                            <path class="accent" d="M12 11h.01"></path>
+                        </svg>
+                    </span>
+                    <span class="tile-label">All</span>
+                    <span class="tile-count" id="count-all">0</span>
+                </div>
+                <div class="category-tile" data-category="recent">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline class="accent" points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Recent</span>
+                    <span class="tile-count" id="count-recent">0</span>
+                </div>
+                <div class="category-tile" data-category="favorites">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                            </polygon>
+                            <line class="accent" x1="11.2" y1="4" x2="9.8" y2="7.5"></line>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Favorites</span>
+                    <span class="tile-count" id="count-favorites">0</span>
+                </div>
+                <!-- ... other category tiles ... -->
+                <div class="sidebar-divider"></div>
+                <div class="category-tile" data-category="video">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect>
+                            <polygon class="accent" points="10 9 15 12 10 15 10 9" fill="transparent" stroke-width="2">
+                            </polygon>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Video</span>
+                    <span class="tile-count" id="count-video">0</span>
+                </div>
+                <div class="category-tile" data-category="transition">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <path class="accent" d="M8 12l8 0"></path>
+                            <path class="accent" d="M13 9l3 3-3 3"></path>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Transition</span>
+                    <span class="tile-count" id="count-transition">0</span>
+                </div>
+                <div class="category-tile" data-category="effect">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                            <path class="accent"
+                                d="M12 4v2M12 18v2M4 12h2M18 12h2M6.34 6.34l1.42 1.42M16.24 16.24l1.42 1.42M6.34 17.66l1.42-1.42M16.24 7.76l1.42-1.42">
+                            </path>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Effect</span>
+                    <span class="tile-count" id="count-effect">0</span>
+                </div>
+                <div class="category-tile" data-category="text">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 7V4h16v3"></path>
+                            <path d="M9 20h6"></path>
+                            <line class="accent" x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Text</span>
+                    <span class="tile-count" id="count-text">0</span>
+                </div>
+                <div class="category-tile" data-category="audio">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 18V6"></path>
+                            <path class="accent" d="M15 21V3"></path>
+                            <path d="M5 15v-6"></path>
+                            <path d="M19 15v-6"></path>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Audio</span>
+                    <span class="tile-count" id="count-audio">0</span>
+                </div>
+                <div class="category-tile" data-category="overlay">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline class="accent" points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Overlay</span>
+                    <span class="tile-count" id="count-overlay">0</span>
+                </div>
+                <div class="category-tile" data-category="background">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle class="accent" cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Background</span>
+                    <span class="tile-count" id="count-background">0</span>
+                </div>
+                <div class="category-tile" data-category="mogrt">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                            <circle class="accent" cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
+                    <span class="tile-label">MOGRT</span>
+                    <span class="tile-count" id="count-mogrt">0</span>
+                </div>
+                <div class="category-tile" data-category="other">
+                    <span class="tile-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path>
+                            <path class="accent" d="M12 12v9"></path>
+                        </svg>
+                    </span>
+                    <span class="tile-label">Other</span>
+                    <span class="tile-count" id="count-other">0</span>
+                </div>
+            </aside>
+
+            <!-- Right Panel (Toolbar + Grid + Bottom) -->
+            <div class="content-right-panel">
+                <!-- Module Toolbar - Changes per module -->
+                <div class="module-toolbar" id="moduleToolbar">
+                    <!-- Assets toolbar -->
+                    <div id="toolbarAssets">
+                    <div class="toolbar-search">
+                        <span class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </span>
+                        <input type="text" id="searchInput" placeholder="Search assets...">
+                    </div>
+                    <div class="toolbar-actions">
+                        <div class="btn-dropdown" id="saveDropdown">
+                            <button id="saveAssetBtn" class="btn-save" title="Save selected clips as asset">
+                                <span class="btn-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </span> Save
+                            </button>
+                            <button class="btn-dropdown-toggle" id="saveDropdownToggle">
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu" id="saveDropdownMenu">
+                                <div class="dropdown-item" id="menuSave">
+                                    <span class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z">
+                                            </path>
+                                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                            <polyline points="7 3 7 8 15 8"></polyline>
+                                        </svg></span>
+                                    Save from Timeline
+                                </div>
+                                <div class="dropdown-item" id="menuImport">
+                                    <span class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                            </path>
+                                        </svg></span>
+                                    Import from File
+                    </div>
+                    </div>
+                    <!-- Captions toolbar (hidden) -->
+                    <div id="toolbarCaptions" style="display:none">
+                    <div class="toolbar-search disabled">
+                        <span class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </span>
+                        <input type="text" placeholder="Captions module coming soon..." disabled>
+                    </div>
+                    </div>
+                </div>
+                        </div>
+                        <button id="settingsBtn" class="btn-icon-only" title="Settings">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Chips Bar -->
+                <div class="filter-bar" id="filterBar" style="display: none;">
+                    <!-- Chips will be injected dynamically -->
+                </div>
+
+                <!-- Asset Grid -->
+                <div class="asset-grid" id="assetGrid">
+                    <!-- Assets will be loaded here dynamically -->
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                style="color: var(--text-secondary); opacity: 0.5;">
+                                <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path>
+                                <line x1="12" y1="12" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <p>No assets yet</p>
+                        <p class="hint">Select clips on timeline and click "Save" to create your first asset</p>
+                    </div>
+                </div>
+
+                <!-- Bottom Toolbar -->
+                <div class="bottom-toolbar">
+                    <div class="toolbar-aspect">
+                        <button class="aspect-btn active" data-aspect="16:9">16:9</button>
+                        <button class="aspect-btn" data-aspect="9:16">9:16</button>
+                    </div>
+                    <div class="toolbar-zoom">
+                        <input type="range" class="zoom-slider" id="zoomSlider" min="1" max="3" step="1" value="2">
+                    </div>
+                </div>
+                <!-- Audio Preview Bar (Inside Right Panel) -->
+                <div id="audioPreviewBar" class="audio-preview-bar hidden">
+                    <button class="audio-preview-close" id="audioPreviewClose" title="Close">&times;</button>
+
+                    <!-- Row 1: Controls -->
+                    <div class="preview-row controls-row">
+                        <div class="controls-left">
+                            <button class="audio-btn play-btn" id="audioPlayBtn" title="Play/Pause">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M8 5v14l11-7z" class="play-icon" />
+                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" class="pause-icon" style="display:none" />
+                                </svg>
+                            </button>
+                            <button class="audio-btn secondary-btn" id="audioReplayBtn" title="Replay">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                                    <path
+                                        d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                                </svg>
+                            </button>
+                            <div class="volume-control">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                <input type="range" class="volume-slider" id="audioVolumeSlider" min="0" max="1"
+                                    step="0.01" value="0.8">
+                            </div>
+                        </div>
+                        <div class="audio-time-display">
+                            <span id="audioCurrentTime">00:00.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Waveform -->
+                    <div class="preview-row waveform-row">
+                        <canvas id="audioTimelineCanvas" class="audio-timeline-canvas"></canvas>
+                    </div>
+
+                    <!-- Row 3: Settings & Action -->
+                    <div class="preview-row settings-row">
+                        <div class="settings-left">
+                            <span class="setting-label">Pitch:</span>
+                            <input type="range" id="audioPitchSlider" min="0.5" max="2.0" step="0.1" value="1.0"
+                                class="pitch-slider">
+                            <span id="audioPitchValue" class="value-display">1.0x</span>
+                            <button class="reset-btn" id="audioPitchReset">Reset</button>
+
+                            <label class="checkbox-label reverse-check">
+                                <input type="checkbox" id="audioReverseCheck">
+                                <span>Reverse</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Hidden elements needed for logic but not displayed -->
+                    <span id="audioPreviewName" style="display:none"></span>
+                    <span id="audioTotalTime" style="display:none"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Dialog (hidden by default) -->
+        <div class="dialog-overlay" id="saveDialog" style="display: none;">
+            <div class="dialog">
+                <h2>Save Asset</h2>
+                <input type="text" id="assetName" placeholder="Asset name..." class="input-field">
+
+                <!-- Subcategory -->
+                <div class="input-wrapper" style="margin-top: 8px;">
+                    <input type="text" id="assetSubcategory" placeholder="Subcategory (e.g. Swoosh)..."
+                        class="input-field" autocomplete="off" style="margin: 0;">
+                    <div id="subArrow" class="input-arrow-icon" title="Show suggestions">&#9660;</div>
+                    <div id="subSuggestions" class="suggestions-dropdown" style="display: none;"></div>
+                </div>
+
+                <label class="select-label" style="margin-top: 12px;">Type:</label>
+                <select id="assetType" class="select-field" style="display: none;">
+                    <option value="video">Video</option>
+                    <option value="transition">Transition</option>
+                    <option value="effect">Effect</option>
+                    <option value="text">Text</option>
+                    <option value="audio">Audio</option>
+                    <option value="overlay">Overlay</option>
+                    <option value="background">Background</option>
+                    <option value="mogrt">MOGRT</option>
+                    <option value="other">Other</option>
+                </select>
+                <!-- Custom Select Structure -->
+                <div class="custom-select-container">
+                    <div class="custom-select-trigger" id="customAssetType">
+                        <span class="selected-value">
+                            <span class="type-icon"></span>
+                            <span class="type-label">Video</span>
+                        </span>
+                        <span class="arrow">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="custom-options" id="customAssetOptions"></div>
+                </div>
+                <div class="dialog-buttons">
+                    <button id="cancelSave" class="btn-secondary">Cancel</button>
+                    <button id="confirmSave" class="btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saving Overlay -->
+        <div class="saving-overlay" id="savingOverlay" style="display: none;">
+            <div class="saving-content">
+                <div class="saving-spinner"></div>
+                <div class="saving-text" id="savingText">Saving asset...</div>
+                <div class="saving-subtext" id="savingSubtext">Please wait, do not interact with Premiere Pro</div>
+            </div>
+        </div>
+
+        <!-- Rename Dialog -->
+        <div class="dialog-overlay" id="renameDialog" style="display: none;">
+            <div class="dialog">
+                <h2>Rename Asset</h2>
+                <input type="text" id="renameInput" placeholder="New name..." class="input-field">
+                <div class="dialog-buttons">
+                    <button id="cancelRename" class="btn-secondary">Cancel</button>
+                    <button id="confirmRename" class="btn-primary">Rename</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subcategory Rename Dialog -->
+        <div class="dialog-overlay" id="subcatRenameDialog" style="display: none;">
+            <div class="dialog">
+                <h2>Rename Category</h2>
+                <input type="text" id="subcatRenameInput" placeholder="New name..." class="input-field">
+                <div class="dialog-buttons">
+                    <button id="cancelSubcatRename" class="btn-secondary">Cancel</button>
+                    <button id="confirmSubcatRename" class="btn-primary">Rename</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Duplicate Warning Dialog -->
+        <div id="duplicateDialog" class="dialog-overlay" style="display: none;">
+            <div class="dialog delete-dialog-content" style="padding: 0; gap: 0; overflow: hidden;">
+                <div class="dialog-header" style="padding: 20px 24px; border-bottom: 1px solid #333; background: #2a2a2a;">
+                    <h2 style="color: #ffaa00; font-size: 18px; display: flex; align-items: center; gap: 10px; margin: 0;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        Asset Already Exists
+                    </h2>
+                </div>
+                <div class="dialog-body" style="padding: 24px; background: #222;">
+                    <p id="duplicateMessage" style="margin: 0; font-size: 14px; line-height: 1.5; color: #eee;">An asset with this name already exists.</p>
+                </div>
+                <div class="dialog-footer" style="padding: 16px 24px; background: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: flex-end; gap: 12px;">
+                    <button id="duplicateCancel" class="btn-secondary" style="margin: 0;">Cancel</button>
+                    <button id="duplicateConfirm" class="btn-primary" style="background: #0d99ff; border-color: #0d99ff; margin: 0;">Add Anyway</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Asset Confirmation Dialog -->
+        <div id="deleteDialog" class="dialog-overlay" style="display: none;">
+            <div class="dialog delete-dialog-content" style="padding: 0; gap: 0; overflow: hidden;">
+                <div class="dialog-header" style="padding: 20px 24px; border-bottom: 1px solid #333; background: #2a2a2a;">
+                    <h2 style="color: #ff6b6b; font-size: 18px; display: flex; align-items: center; gap: 10px; margin: 0;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        Delete Asset
+                    </h2>
+                </div>
+                <div class="dialog-body" style="padding: 24px; background: #222;">
+                    <p id="deleteMessage" style="margin: 0 0 8px; font-size: 14px; line-height: 1.5; color: #eee;">Are you sure you want to delete this asset?</p>
+                    <p style="font-size: 12px; color: #888; margin: 0;">This action cannot be undone.</p>
+                </div>
+                <div class="dialog-footer" style="padding: 16px 24px; background: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: flex-end; gap: 12px;">
+                    <button id="deleteCancel" class="btn-secondary" style="margin: 0;">Cancel</button>
+                    <button id="deleteConfirm" class="btn-primary" style="background: #ff4444; border-color: #ff4444; margin: 0;">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Dialog -->
+        <div id="settingsDialog" class="dialog-overlay" style="display: none;">
+            <div class="dialog settings-dialog">
+                <h2>Settings</h2>
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <label for="settingDebugPanel">Show Debug Panel</label>
+                        <label class="switch">
+                            <input type="checkbox" id="settingDebugPanel">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button id="closeSettingsBtn" class="btn-primary">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug Log Panel -->
+        <div class="debug-panel collapsed" id="debugPanel">
+            <div class="debug-header">
+                <span class="debug-title" id="toggleDebug" title="Click to expand/collapse">
+                    <span class="toggle-arrow">&#9654;</span> Debug
+                    <span id="scriptVersion" class="version-badge">v?.?.?</span>
+                </span>
+                <div class="debug-buttons">
+                    <button id="reloadScripts" class="btn-small" title="Reload ExtendScript">&#128260;</button>
+                    <button id="clearLog" class="btn-small">Clear</button>
+                    <button id="testCmds" class="btn-small">Test</button>
+                </div>
+            </div>
+            <div class="debug-log" id="debugLog"></div>
+        </div>
+
+        <!-- Context Menu (hidden by default) -->
+        <div class="context-menu" id="contextMenu" style="display: none;">
+            <div class="context-item" id="ctxRename">
+                <svg viewBox="0 0 24 24" class="ctx-icon">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path class="accent" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+                Rename
+            </div>
+            <div class="context-item" id="ctxEditSubcat">
+                <svg viewBox="0 0 24 24" class="ctx-icon">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                    <circle class="accent" cx="7" cy="7" r="1.5" />
+                </svg>
+                Edit Subcategory
+            </div>
+            <div class="context-divider"></div>
+            <div class="context-item" id="ctxAddPreview">
+                <svg viewBox="0 0 24 24" class="ctx-icon">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <path class="accent" d="M12 17v4M8 21h8" />
+                    <circle cx="12" cy="10" r="2" />
+                </svg>
+                Add Preview
+            </div>
+            <div class="context-item" id="ctxRemovePreview">
+                <svg viewBox="0 0 24 24" class="ctx-icon">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    <line class="accent" x1="10" y1="11" x2="10" y2="17" />
+                    <line class="accent" x1="14" y1="11" x2="14" y2="17" />
+                </svg>
+                Remove Preview
+            </div>
+            <div class="context-divider"></div>
+            <div class="context-item context-delete" id="ctxDelete">
+                <svg viewBox="0 0 24 24" class="ctx-icon ctx-icon-delete">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+                Delete Asset
+            </div>
+        </div>
+
+        <!-- Edit Subcategory Dialog -->
+        <div id="subcatChangeDialog" class="dialog-overlay" style="display: none;">
+            <div class="dialog">
+                <h2>&#127991;&#65039; Edit Subcategory</h2>
+                <div class="input-wrapper">
+                    <input type="text" id="subcatChangeInput" placeholder="Type or select subcategory..."
+                        class="input-field" autocomplete="off" style="margin: 0;">
+                    <div id="subcatArrow" class="input-arrow-icon" title="Show suggestions">&#9660;</div>
+                    <div id="subcatSuggestions" class="suggestions-dropdown" style="display: none;"></div>
+                </div>
+                <p class="hint-text" style="font-size: 10px; color: #888; margin: 8px 0 12px;">Leave empty to remove subcategory</p>
+                <div class="dialog-buttons">
+                    <button id="subcatChangeCancel" class="btn-secondary">Cancel</button>
+                    <button id="subcatChangeConfirm" class="btn-primary">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden file input for preview picker -->
+        <input type="file" id="previewPicker" accept="video/*,.webm,.mp4,.gif" style="display: none;">
+
+        <!-- Hidden file input for import -->
+        <input type="file" id="importPicker" accept="video/*,audio/*,.mp4,.mp3,.wav,.webm,.mov,.gif,.mogrt,.prproj"
+            style="display: none;">
+
+    </div>
+
+    <!-- Drag Ghost (Hidden, used for setDragImage) -->
+    <div id="dragGhost" class="drag-ghost">
+        <div class="drag-ghost-icon"></div>
+    </div>
+
+    <!-- Adobe CEP Library -->
+    <script src="lib/CSInterface.js"></script>
+    <!-- Pitch Shifter Library -->
+    <script src="js/jungle.js"></script>
+    <!-- Load main application logic as module -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>
